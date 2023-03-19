@@ -81,6 +81,7 @@ pub mod fields {
         };
     }
 
+    impl_bthome_field!(PacketID, 0x00, 1.0, u8);
     impl_bthome_field!(Battery_1Per, 0x01, 1.0, u8);
     impl_bthome_field!(CO2_ppm, 0x12, 1.0, u16);
     impl_bthome_field!(Count_1byte, 0x09, 1.0, u8);
