@@ -70,13 +70,13 @@ macro_rules! build_bthome_ad {
                 }
             )*
 
-            pub fn as_vec(&self) -> heapless::Vec<u8, 31>{
+            pub fn as_vec(&self) -> Result<heapless::Vec<u8, 31>, ()>{
                 let mut buf: heapless::Vec<u8, 31> = heapless::Vec::new();
                 buf.extend_from_slice(&[
                     0x02,
                     0x01,
                     0x06, // BLE_GAP_ADV_FLAGS_LE_ONLY_GENERAL_DISC_MODE
-                ]).unwrap();
+                ])?;
 
                 // The BTHome Header
                 let header = [
@@ -86,16 +86,16 @@ macro_rules! build_bthome_ad {
                     0xFC,
                     0x40,
                 ];
-                buf.extend_from_slice(&header).unwrap();
+                buf.extend_from_slice(&header)?;
 
                 $(
                     if let Some($field) = self.$field.clone() {
-                        buf.extend_from_slice($field.as_slice()).unwrap();
+                        buf.extend_from_slice($field.as_slice())?;
                         buf[3] += core::mem::size_of::<$ty>() as u8;
                     }
                 )*
 
-                buf
+                Ok(buf)
             }
         }
 

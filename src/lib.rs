@@ -176,6 +176,6 @@ mod tests {
             .battery_charging(true.into()); // A flag indicating that the battery is charging
 
         let expected = std::vec![2, 1, 6, 11, 22, 210, 252, 64, 69, 255, 0, 46, 50, 22, 1];
-        assert_eq!(expected.as_slice(), my_ad.as_vec().as_slice());
+        assert_eq!(expected.as_slice(), my_ad.as_vec().unwrap().as_slice());
     }
 }
