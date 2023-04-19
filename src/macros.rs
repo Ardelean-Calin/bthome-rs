@@ -51,7 +51,8 @@ macro_rules! build_bthome_ad {
     (struct $name:ident {
         $($field:ident: $ty:path,)*
     }) => {
-        #[derive(Default, Clone, defmt::Format)]
+        #[derive(Default, Clone)]
+        #[cfg_attr(feature = "defmt", derive(defmt::Format))]
         pub struct $name {
             $(
                 $field: Option<$ty>,
@@ -105,7 +106,8 @@ macro_rules! build_bthome_ad {
 
 macro_rules! impl_field {
     ($name:ident, $id:literal, $internal_repr:ty, $external_repr:ty) => {
-        #[derive(defmt::Format, Clone)]
+        #[derive(Clone)]
+        #[cfg_attr(feature = "defmt", derive(defmt::Format))]
         pub struct $name($internal_repr);
 
         impl $name {
@@ -136,7 +138,8 @@ macro_rules! impl_field {
 
 macro_rules! impl_flag {
     ($name:ident, $id:literal) => {
-        #[derive(defmt::Format, Clone)]
+        #[derive(Clone)]
+        #[cfg_attr(feature = "defmt", derive(defmt::Format))]
         pub struct $name([u8; 2]);
         impl $name {
             pub fn get(&self) -> bool {
